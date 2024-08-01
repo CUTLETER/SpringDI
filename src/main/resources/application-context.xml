@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+>
+
+<!-- 네임 스페이스
+	xml에서 특정 라이브러리를 참조해서 선언하고 싶은 경우에 쓰는 표현
+	xmlns는 모듈의 위치를
+	beans 태그로 사용한다는 의미 -->
+
+<bean id="test" class="ex01.SpringTest" scope="prototype"/> <!-- bean은 싱글톤 모형이 기본이며 prototype으로 바꾸면 사용할 때마다 새롭게 (다른 객체로) 생성됨 -->
+
+
+<!-- 의존성 주입 - 객체가 생성될 때 특정 객체를 주입시킴 -->
+<bean id="hotel" class="ex02.constructor.Hotel">
+	<constructor-arg ref="chef"/> <!-- ref 안에 (객체의)아이디를 넣음 -->
+</bean>
+
+<!-- 아래 코드가 위 내용과 같음 (매개변수 chef타입으로 받겠다) 
+	public Hotel(Chef chef) {
+		this.chef = chef;
+	} 
+-->
+
+<bean id="chef" class="ex02.constructor.Chef"/>
+
+
+<!-- setter를 통한 주입 -->
+<bean id="ds" class="ex02.setter.MyDataSource">
+	<property name="url" value="jdbc:oracle:thin:localhost"></property> <!-- name엔 게터 세터명이 들어가고 value엔 값이 들어감 -->
+	<property name="uid" value="jsp"></property>
+	<property name="upw" value="jsp"></property>
+</bean>
+
+<bean id="memberDAO" class="ex02.setter.MemberDAO">
+	<property name="myDataSource" ref="ds"></property>
+</bean>
+</beans>
